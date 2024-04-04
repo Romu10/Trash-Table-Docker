@@ -40,11 +40,15 @@ RUN apt-get update && apt-get install -y \
     nano
 
 # Install scikit learn
-RUN pip install -U scikit-learn
+RUN pip install -U scikit-learn 
+RUN pip install pymongo
+RUN pip install httpserver
+RUN pip install tornado
 
 # Git clone scripts
 WORKDIR /home/user/ros2_ws/src
-RUN git clone https://github.com/Romu10/Trash-Table-Cleaner-Robot.git .
+RUN git clone -b main https://github.com/Romu10/Trash-Table-Cleaner-Robot.git .
+RUN git clone https://github.com/RobotWebTools/rosbridge_suite.git 
 
 # Git clone simulation
 WORKDIR /home/user/simulation_ws/src
