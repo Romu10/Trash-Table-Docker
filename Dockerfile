@@ -4,7 +4,7 @@ FROM osrf/ros:humble-desktop-full
 # Make a catkin workspace
 WORKDIR /
 RUN mkdir -p home/user/ros2_ws/src
-RUN mkdir -p home/user/webpage_ws/src
+RUN mkdir -p home/user/webpage_ws/
 RUN mkdir -p home/user/simulation_ws/src
 WORKDIR /ros2_ws/src
 
@@ -49,6 +49,10 @@ RUN git clone https://github.com/Romu10/Trash-Table-Cleaner-Robot.git .
 # Git clone simulation
 WORKDIR /home/user/simulation_ws/src
 RUN git clone https://github.com/Romu10/Cafeteria-Simulation-Trash-Table.git .
+
+# Git clone webpage
+WORKDIR /home/user/webpage_ws
+RUN git clone https://github.com/Romu10/Trash-Table-Webpage.git .
 
 # Build simulation workspace
 WORKDIR /home/user/simulation_ws
