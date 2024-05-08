@@ -63,11 +63,17 @@ WORKDIR /home/user/ros2_ws
 RUN /bin/bash -c "source /opt/ros/humble/setup.bash; colcon build; source install/setup.bash"
 
 # Source the workspace every time a new shell is opened in the container
-RUN echo source /ros2_ws/install/setup.bash >> ~/.bashrc
+RUN echo source /home/user/ros2_ws/install/setup.bash >> ~/.bashrc
 
 # Set the entry point to start a bash shell
 CMD ["/bin/bash"]
 
+EXPOSE 7000
+
 # RUN
 # xhost local:docker
 # docker run -it --rm --privileged -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix trashbot_simulation:latest
+
+# docker run -it -d --privileged -p 7000:7000 -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix cafeteria:simulation
+# docker rm -f $(docker ps -aq)
+
