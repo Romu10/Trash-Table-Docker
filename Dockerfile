@@ -4,7 +4,7 @@ FROM osrf/ros:humble-desktop-full
 # Make a catkin workspace
 WORKDIR /
 RUN mkdir -p home/user/ros2_ws/src
-RUN mkdir -p home/user/webpage_ws/src
+RUN mkdir -p home/user/webpage_ws/
 RUN mkdir -p home/user/simulation_ws/src
 WORKDIR /ros2_ws/src
 
@@ -54,6 +54,10 @@ RUN git clone https://github.com/RobotWebTools/rosbridge_suite.git
 WORKDIR /home/user/simulation_ws/src
 RUN git clone https://github.com/Romu10/Cafeteria-Simulation-Trash-Table.git .
 
+# Git clone webpage
+WORKDIR /home/user/webpage_ws
+RUN git clone https://github.com/Romu10/Trash-Table-Webpage.git .
+
 # Build simulation workspace
 WORKDIR /home/user/simulation_ws
 RUN /bin/bash -c "source /opt/ros/humble/setup.bash; colcon build; source install/setup.bash"
@@ -63,11 +67,17 @@ WORKDIR /home/user/ros2_ws
 RUN /bin/bash -c "source /opt/ros/humble/setup.bash; colcon build; source install/setup.bash"
 
 # Source the workspace every time a new shell is opened in the container
-RUN echo source /ros2_ws/install/setup.bash >> ~/.bashrc
+RUN echo source /home/user/ros2_ws/install/setup.bash >> ~/.bashrc
 
 # Set the entry point to start a bash shell
 CMD ["/bin/bash"]
 
+EXPOSE 7000
+
 # RUN
 # xhost local:docker
 # docker run -it --rm --privileged -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix trashbot_simulation:latest
+
+# docker run -it -d --privileged -p 7000:7000 -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix cafeteria:simulation
+# docker rm -f $(docker ps -aq)
+
