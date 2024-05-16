@@ -74,10 +74,22 @@ CMD ["/bin/bash"]
 
 EXPOSE 7000
 
-# RUN
-# xhost local:docker
-# docker run -it --rm --privileged -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix trashbot_simulation:latest
-
-# docker run -it -d --privileged -p 7000:7000 -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix cafeteria:simulation
+# RUN THIS COMMANDS TO START THE CONTAINER
 # docker rm -f $(docker ps -aq)
+# xhost local:docker
+# docker build --no-cache -t cafeteria:simulation .    
+# docker run -it -d --privileged -p 7000:7000 --name cafeteria_sim -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix cafeteria:simulation
+# docker exec -it cafeteria_sim bash
 
+# COMMANDS TO START THE PROGRAM
+# - TELEOPERATE
+#   ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/diffbot_base_controller/cmd_vel_unstamped
+# - SIMULATION
+#   ros2 launch the_construct_office_gazebo warehouse_rb1.launch.xml 
+# - NAV2
+#   ros2 launch path_planner_server pathplanner.launch.py 
+# - NEEDED NODES
+#   ros2 launch nav2_interface trash_table_pickup.launch.py 
+# - SCRIPT 
+#   python3 src/nav2_interface/nav2_interface/look_for_trash_table.py 
+# - WEB 
